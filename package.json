@@ -105,7 +105,8 @@
     "react-addons-create-fragment": "^15.5.3",
     "react-dom": "^15.5.3",
     "react-style-proptype": "^3.0.0",
-    "react-textarea-autosize": "^5.1.0"
+    "react-textarea-autosize": "^5.1.0",
+    "react-transition-group": "^1.2.0"
   },
   "devDependencies": {
     "acorn": "^3.3.0",

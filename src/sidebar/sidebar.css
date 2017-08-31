@@ -9,49 +9,77 @@
     --sidebar-shift: 40px;
     --sidebar-padding: 32px;
     --sidebar-padding-top: 96px;
-    --sidebar-padding-small: 16px;
+    --sidebar-padding-small: 12px;
+
+    --sidebar-header-height: 56px;
+    --sidebar-mobile-offset-top: 25px;
 }
 
 .sidebar {
     position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1001;
+
+    display: flex;
+    flex-direction: column;
+
     overflow-y: auto;
     overflow-x: hidden;
     width: calc(var(--sidebar-width) + var(--sidebar-shift));
     height: 100%;
-    height: 100vh;
-    top: 0;
-    right: 0;
-    margin-right: calc((var(--sidebar-width) + var(--sidebar-shift)) * -1);
+
     padding: var(--sidebar-padding-top) 0 var(--sidebar-padding) var(--sidebar-padding);
     padding-right: calc(var(--sidebar-padding) + var(--sidebar-shift));
     box-sizing: border-box;
-    z-index: 1001;
-    transition: margin-right .45s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &_visible {
-        margin-right: calc(var(--sidebar-shift) * -1);
+         transform: translateX(20%);
     }
 
+    &__inner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__content {
+        position: relative;
+        flex: 1;
+
+        width: 100%;
+        height: 100%;
+
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        transform: translateZ(0);
+     }
+
     &__closer {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin-top: calc(var(--sidebar-padding) - 6);
-        margin-right: calc(var(--sidebar-shift) + var(--sidebar-padding) - 6);
         margin-bottom: 0;
         margin-left: 0;
         padding: 0;
-        cursor: pointer;
-        outline: none;
-        user-select: none;
+
         color: inherit;
         font: inherit;
         background: none;
         border: none;
+
+        cursor: pointer;
+        outline: none;
+        user-select: none;
     }
 
-    &__content {
-        overflow: hidden;
+    &__action {
+        padding: 0;
+
+        background: none;
+        border: none;
+        outline: none;
+        font: inherit;
+        user-select: none;
     }
 
     &_theme_alfa-on-color {
@@ -66,22 +94,69 @@
 @media (--small-only) {
     .sidebar {
         width: 100%;
-        padding: var(--sidebar-padding-top) var(--sidebar-padding-small) var(--sidebar-padding-small);
-        margin-right: -100%;
+        padding: 0 var(--sidebar-padding-small);
+        margin-right: 0;
 
         &_visible {
-            margin-right: 0;
+             overflow: hidden;
         }
 
-        &__closer {
+        &__header, &__footer {
+            position: relative;
+
+            transform: translateZ(0);
+            -webkit-overflow-scrolling: touch;
+
+            &:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+
+                width: 100%;
+                height: 40px;
+
+                background-image: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
+
+                content: '';
+                pointer-events: none;
+                transform: translateY(-100%);
+            }
+        }
+
+        &__header {
+            position: absolute;
             top: 0;
-            right: 0;
-            margin-right: var(--sidebar-padding-small);
-            margin-top: var(--sidebar-padding-small);
+            left: 0;
+            z-index: 1;
+
+            display: flex;
+            justify-content: space-between;
+
+            width: 100%;
+            height: var(--sidebar-header-height);
+            padding: 15px var(--sidebar-padding-small);
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+            background-color: #fff;
+        }
+
+        &__action {
+            display: flex;
+            align-items: center;
+        }
+
+        &__content {
+            padding: calc(var(--sidebar-mobile-offset-top) + var(--sidebar-header-height)) var(--sidebar-padding-small) 0;
+        }
+
+        &_theme_alfa-on-white {
+            background-color: #fff;
         }
     }
 
     body.sidebar-visible {
         overflow: hidden;
+        position: fixed;
     }
 }
