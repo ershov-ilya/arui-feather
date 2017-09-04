@@ -69,7 +69,7 @@ class Input extends React.Component {
         /**
          * Атрибут формы, а не компонента
          * @deprecated
-         **/
+         */
         noValidate: Type.bool,
         /** Добавление дополнительных элементов к инпуту слева */
         leftAddons: Type.node,
