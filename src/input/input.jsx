@@ -64,6 +64,12 @@ class Input extends React.Component {
         /** Стандартное ствойство HTMLInputElement 'pattern'. Может быть использовано для показа корректной клавиатуры на мобильных устройствах. */
         pattern: Type.string,
         /** Управление встроенной проверкой данных введённых пользователем в поле на корректность */
+        formNoValidate: Type.bool,
+
+        /**
+         * Атрибут формы, а не компонента
+         * @deprecated
+         **/
         noValidate: Type.bool,
         /** Добавление дополнительных элементов к инпуту слева */
         leftAddons: Type.node,
@@ -114,7 +120,7 @@ class Input extends React.Component {
     };
 
     static defaultProps = {
-        noValidate: false,
+        formNoValidate: false,
         size: 'm',
         type: 'text'
     };
@@ -183,26 +189,28 @@ class Input extends React.Component {
     }
 
     renderContent(cn, MaskedInput) {
-        let isMaskedInput = this.props.mask !== undefined;
-        let value = this.props.value !== undefined
-            ? this.props.value
+        let props = this.props;
+
+        let isMaskedInput = props.mask !== undefined;
+        let value = props.value !== undefined
+            ? props.value
             : this.state.value;
 
         let inputProps = {
             className: cn('control'),
-            type: this.props.type,
-            noValidate: this.props.noValidate,
-            autoComplete: this.props.autocomplete === false ? 'off' : 'on',
-            disabled: this.props.disabled || this.props.disabledAttr,
-            maxLength: this.props.maxLength,
-            id: this.props.id,
-            name: this.props.name,
+            type: props.type,
+            formNoValidate: props.formNoValidate || props.noValidate,
+            autoComplete: props.autocomplete === false ? 'off' : 'on',
+            disabled: props.disabled || props.disabledAttr,
+            maxLength: props.maxLength,
+            id: props.id,
+            name: props.name,
             value,
-            tabIndex: this.props.tabIndex,
-            placeholder: this.props.placeholder,
-            pattern: this.props.pattern,
+            tabIndex: props.tabIndex,
+            placeholder: props.placeholder,
+            pattern: props.pattern,
             ref: (control) => { this.control = control; },
-            title: this.props.title,
+            title: props.title,
             onChange: this.handleChange,
             onFocus: this.handleFocus,
             onClick: this.handleClick,
@@ -223,9 +231,9 @@ class Input extends React.Component {
                 ref={ (box) => { this.box = box; } }
             >
                 {
-                    this.props.leftAddons &&
+                    props.leftAddons &&
                     <span className={ cn('addons', { left: true }) } key='left-addons'>
-                        { this.props.leftAddons }
+                        { props.leftAddons }
                     </span>
                 }
                 {
@@ -233,28 +241,28 @@ class Input extends React.Component {
                         ? <input { ...inputProps } />
                         : <MaskedInput
                             { ...inputProps }
-                            mask={ this.props.mask }
-                            formatCharacters={ this.props.maskFormatCharacters }
-                            onProcessInputEvent={ this.props.onProcessMaskInputEvent }
+                            mask={ props.mask }
+                            formatCharacters={ props.maskFormatCharacters }
+                            onProcessInputEvent={ props.onProcessMaskInputEvent }
                         />
                 }
                 {
-                    this.props.clear && value &&
+                    props.clear && value &&
                     <button
                         className={ cn('clear') }
                         onClick={ this.handleClearClick }
                     />
                 }
                 {
-                    this.props.icon &&
+                    props.icon &&
                     <span className={ cn('icon') }>
-                        { this.props.icon }
+                        { props.icon }
                     </span>
                 }
                 {
-                    this.props.rightAddons &&
+                    props.rightAddons &&
                     <span className={ cn('addons', { right: true }) } key='right-addons'>
-                        { this.props.rightAddons }
+                        { props.rightAddons }
                     </span>
                 }
             </span>
