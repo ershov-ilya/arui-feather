@@ -189,28 +189,27 @@ class Input extends React.Component {
     }
 
     renderContent(cn, MaskedInput) {
-        let props = this.props;
-
-        let isMaskedInput = props.mask !== undefined;
-        let value = props.value !== undefined
-            ? props.value
+        let hasValidateAttr = this.props.formNoValidate !== undefined;
+        let isMaskedInput = this.props.mask !== undefined;
+        let value = this.props.value !== undefined
+            ? this.props.value
             : this.state.value;
 
         let inputProps = {
             className: cn('control'),
-            type: props.type,
-            formNoValidate: props.formNoValidate || props.noValidate,
-            autoComplete: props.autocomplete === false ? 'off' : 'on',
-            disabled: props.disabled || props.disabledAttr,
-            maxLength: props.maxLength,
-            id: props.id,
-            name: props.name,
+            type: this.props.type,
+            formNoValidate: hasValidateAttr ? this.props.formNoValidate : this.props.noValidate,
+            autoComplete: this.props.autocomplete === false ? 'off' : 'on',
+            disabled: this.props.disabled || this.props.disabledAttr,
+            maxLength: this.props.maxLength,
+            id: this.props.id,
+            name: this.props.name,
             value,
-            tabIndex: props.tabIndex,
-            placeholder: props.placeholder,
-            pattern: props.pattern,
+            tabIndex: this.props.tabIndex,
+            placeholder: this.props.placeholder,
+            pattern: this.props.pattern,
             ref: (control) => { this.control = control; },
-            title: props.title,
+            title: this.props.title,
             onChange: this.handleChange,
             onFocus: this.handleFocus,
             onClick: this.handleClick,
@@ -231,9 +230,9 @@ class Input extends React.Component {
                 ref={ (box) => { this.box = box; } }
             >
                 {
-                    props.leftAddons &&
+                    this.props.leftAddons &&
                     <span className={ cn('addons', { left: true }) } key='left-addons'>
-                        { props.leftAddons }
+                        { this.props.leftAddons }
                     </span>
                 }
                 {
@@ -241,28 +240,28 @@ class Input extends React.Component {
                         ? <input { ...inputProps } />
                         : <MaskedInput
                             { ...inputProps }
-                            mask={ props.mask }
-                            formatCharacters={ props.maskFormatCharacters }
-                            onProcessInputEvent={ props.onProcessMaskInputEvent }
+                            mask={ this.props.mask }
+                            formatCharacters={ this.props.maskFormatCharacters }
+                            onProcessInputEvent={ this.props.onProcessMaskInputEvent }
                         />
                 }
                 {
-                    props.clear && value &&
+                    this.props.clear && value &&
                     <button
                         className={ cn('clear') }
                         onClick={ this.handleClearClick }
                     />
                 }
                 {
-                    props.icon &&
+                    this.props.icon &&
                     <span className={ cn('icon') }>
-                        { props.icon }
+                        { this.props.icon }
                     </span>
                 }
                 {
-                    props.rightAddons &&
+                    this.props.rightAddons &&
                     <span className={ cn('addons', { right: true }) } key='right-addons'>
-                        { props.rightAddons }
+                        { this.props.rightAddons }
                     </span>
                 }
             </span>
