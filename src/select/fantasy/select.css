@@ -154,6 +154,10 @@
         opacity: var(--opacity-active);
     }
 
+    &_opened &__tick {
+        transform: rotate(180deg);
+    }
+
     &_width_available {
         width: 100%;
         min-width: 0;

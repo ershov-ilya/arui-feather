@@ -215,7 +215,8 @@ class Select extends React.Component {
                     focused: this.getFocused(),
                     'has-label': !!this.props.label,
                     'has-value': !!value,
-                    invalid: !!this.props.error
+                    invalid: !!this.props.error,
+                    opened: this.getOpened()
                 }) }
                 ref={ (root) => { this.root = root; } }
             >
@@ -743,13 +744,12 @@ class Select extends React.Component {
     toggleOpened() {
         let newOpenedState = !this.getOpened();
 
+        if (newOpenedState) {
+            this.focusOnMenu();
+        }
+
         this.setState(
-            { opened: newOpenedState },
-            () => {
-                if (newOpenedState) {
-                    this.focusOnMenu();
-                }
-            }
+            { opened: newOpenedState }
         );
     }
 
